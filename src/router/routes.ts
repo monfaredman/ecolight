@@ -1,3 +1,3 @@
-import AuthRoutes from '@/modules/auth/routes/index'
+import HomeRoutes from '@/modules/home/routes/index'
 
-export default [...AuthRoutes]
+export default [...HomeRoutes]
