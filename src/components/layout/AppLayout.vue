@@ -11,7 +11,7 @@ const toggleDrawer = () => {
 </script>
 
 <template>
-  <VApp dir="rtl" style="direction: rtl">
+  <VApp dir="rtl">
     <VMain>
       <AppSidebar v-model="mobileDrawer" />
       <div>
@@ -22,9 +22,6 @@ const toggleDrawer = () => {
   </VApp>
 </template>
 <style lang="postcss" scoped>
-::v-deep .v-data-table-header {
-  @apply !bg-blue-50;
-}
 .card-wrapper {
   box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15) !important;
 }

@@ -10,17 +10,12 @@ export default createVuetify({
     sets: { mdi },
   },
   locale: {
-    rtl: { en: false, ar: true },
+    locale: 'fa',
   },
   theme: {
     themes: {
       light: lightTheme,
       dark: darkTheme,
-    },
-  },
-  defaults: {
-    global: {
-      // rtl: true, ❌ (Remove this, doesn't work)
     },
   },
 })

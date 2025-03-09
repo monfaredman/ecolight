@@ -5,7 +5,6 @@
       class="bg-white rounded-l-lg shadow-2xl"
       right
       location="right"
-      style="direction: rtl"
       :rail="rail"
       @click="rail = false"
       permanent
@@ -31,8 +30,6 @@
               'bg-gray-200': selectedItem && item.title === selectedItem.title,
             }"
             @click="openDrawer(item)"
-            dir="rtl"
-            style="direction: rtl"
           >
             <VListItemContent class="text-center">
               <VIcon size="1.5rem">{{ item.icon }}</VIcon>

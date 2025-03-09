@@ -4,7 +4,7 @@ import { useAuthStore } from '@/stores/index'
 export function authGuard(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
-  next: NavigationGuardNext,
+  next: NavigationGuardNext
 ) {
   const authStore = useAuthStore()
 

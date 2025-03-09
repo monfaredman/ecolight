@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <RouterView />
+  <v-locale-provider rtl>
+    <RouterView />
+  </v-locale-provider>
 </template>

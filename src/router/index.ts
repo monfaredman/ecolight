@@ -7,6 +7,10 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      redirect: '/dashboard',
+    },
+    {
+      path: '/',
       component: () =>
         import(
           /* webpackPrefetch: true, webpackChunkName: "home" */ '@/components/layout/AppLayout.vue'
@@ -16,7 +20,9 @@ const router = createRouter({
           path: 'dashboard',
           name: 'dashboard',
           component: () =>
-            import(/* webpackPrefetch: true, webpackChunkName: "home" */ '@/views/HomeView.vue'),
+            import(
+              /* webpackPrefetch: true, webpackChunkName: "home" */ '@/views/HomeView.vue'
+            ),
           meta: {
             id: 1,
             title: 'داشبورد',

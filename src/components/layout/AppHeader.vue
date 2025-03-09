@@ -52,7 +52,6 @@ const logoutUser = () => {
     fixed
     class="main-header"
     height="64"
-    style="direction: rtl"
     :color="isOnline ? 'grey-lighten-2' : 'red'"
   >
     <template v-if="!loading.header">
