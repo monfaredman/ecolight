@@ -85,30 +85,36 @@ onBeforeUnmount(() => {
     <Swiper
       ref="bannerLoginSwiper"
       v-bind="swiperOptions"
-      :initial-slide="activeIndex"
       class="h-full w-full overflow-hidden"
+      :options="{
+        initialSlide: activeIndex,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+      }"
+      v-bind:style="{
+        '--swiper-pagination-color': 'white',
+        '--swiper-pagination-bullet-inactive-color': '#F1DFE4',
+        '--swiper-pagination-bullet-inactive-opacity': '0.5',
+        '--swiper-pagination-bullet-size': '12px',
+        '--swiper-pagination-bullet-horizontal-gap': '6px',
+      }"
     >
-      <SwiperSlide v-for="(item, index) in bannerItems" :key="index">
-        <img :src="getImageUrl(item.image)" alt="logo" class="w-full h-auto" />
+      <SwiperSlide
+        v-for="(item, index) in bannerItems"
+        :key="index"
+        class="w-full h-full flex flex-col justify-center items-center overflow-hidden lg:rounded-3xl"
+        :style="`background: radial-gradient(circle at center, ${item.gradient}, ${item.gradientTo})`"
+      >
+        <img
+          :src="getImageUrl(item.image)"
+          class="select-none md:w-[222px] md:h-[222px] lg:w-[395px] lg:h-[395px] mt-8"
+          alt="logo"
+        />
         <p>{{ item.description }}</p>
       </SwiperSlide>
     </Swiper>
-
-    <div class="absolute bottom-16 w-full flex justify-center z-10">
-      <div class="flex gap-x-3">
-        <div
-          v-for="(_, index) in bannerItems"
-          :key="index"
-          :class="[
-            'w-3 h-3 rounded-full cursor-pointer transition-all duration-300',
-            activeIndex === index
-              ? 'bg-white'
-              : 'bg-white/50 hover:bg-white/70',
-          ]"
-          @click="goToSlide(index)"
-        />
-      </div>
-    </div>
   </div>
 </template>
 

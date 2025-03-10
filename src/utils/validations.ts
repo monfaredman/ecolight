@@ -32,7 +32,10 @@ export function normalizePhone(text: string | number) {
 }
 
 export function checkNationalId(value: string | number) {
-  const string = replaceUnicodeDigitsWithAscii(String(value)).replace(/[\s-]+/g, '')
+  const string = replaceUnicodeDigitsWithAscii(String(value)).replace(
+    /[\s-]+/g,
+    ''
+  )
 
   if (!/^\d{10}$/.test(string)) {
     return false

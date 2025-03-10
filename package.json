@@ -1,6 +1,7 @@
 {
   "name": "ecolight",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "description": "A Vue 3 project with Vite, Vuetify, and Pinia",
   "private": true,
   "type": "module",
   "scripts": {

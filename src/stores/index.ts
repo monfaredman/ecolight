@@ -1,5 +1,5 @@
 import { createPinia } from 'pinia'
-import { useAuthStore } from '@/modules/auth/models/index'
+import { useAuthStore } from '@/modules/auth/store/index'
 
 const pinia = createPinia()
 

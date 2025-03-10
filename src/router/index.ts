@@ -37,11 +37,24 @@ const router = createRouter({
 
       component: () =>
         import(
-          /* webpackPrefetch: true, webpackChunkName: "login" */ '@/modules/auth/views/AuthView.vue'
+          /* webpackPrefetch: true, webpackChunkName: "login" */ '@/modules/auth/views/Login.vue'
         ),
       meta: {
         id: 1,
         title: 'ورود',
+      },
+    },
+    {
+      name: 'forgot-password',
+      path: '/forgot-password',
+
+      component: () =>
+        import(
+          /* webpackPrefetch: true, webpackChunkName: "login" */ '../modules/auth/views/ForgotPassword.vue'
+        ),
+      meta: {
+        id: 1,
+        title: 'فراموشی رمز عبور',
       },
     },
   ],
