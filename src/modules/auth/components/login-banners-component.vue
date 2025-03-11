@@ -17,26 +17,26 @@ const bannerItems = ref([
   {
     image: 'login-banner-4',
     description: null,
-    gradient: '#9e62a3',
-    gradientTo: '#9e62a3',
+    gradient: '#c28bcf', // Light Purple
+    gradientTo: '#9e62a3', // Dark Purple
   },
   {
     image: 'login-banner-3',
     description: null,
-    gradient: 'rgba(229, 195, 205, 1)',
-    gradientTo: 'rgba(199, 126, 148, 1)',
+    gradient: '#a1b2c6', // Light Gray-Blue
+    gradientTo: '#697697', // Dark Gray-Blue
   },
   {
     image: 'login-banner-2',
     description: null,
-    gradient: 'rgba(187, 193, 229, 1)',
-    gradientTo: 'rgba(122, 127, 161, 1)',
+    gradient: '#00c2ba', // Cyan-Green
+    gradientTo: '#00746d', // Darker Teal for Depth
   },
   {
     image: 'login-banner-1',
     description: null,
-    gradient: 'rgba(119, 172, 209, 1)',
-    gradientTo: 'rgba(85, 112, 131, 1)',
+    gradient: '#ffa272', // Warm Orange
+    gradientTo: '#cc5e3c', // Deep Burnt Orange for Richness
   },
 ])
 
@@ -47,6 +47,28 @@ const getImageUrl = (imageName: string) => {
     (images[`/src/assets/images/login/${imageName}.png`] as any)?.default || ''
   )
 }
+
+const isTransitioning = ref(false)
+
+onMounted(() => {
+  if (bannerLoginSwiper.value) {
+    const swiperInstance = bannerLoginSwiper.value.$el.swiper
+
+    const startTransition = () => {
+      isTransitioning.value = true
+    }
+
+    const endTransition = () => {
+      isTransitioning.value = false
+    }
+
+    // Detect both automatic and user-triggered slide changes
+    swiperInstance.on('slideChangeTransitionStart', startTransition)
+    swiperInstance.on('slideChangeTransitionEnd', endTransition)
+    swiperInstance.on('touchStart', startTransition) // User starts swiping
+    swiperInstance.on('transitionStart', startTransition) // User clicks next/prev
+  }
+})
 
 // Swiper configuration
 const swiperOptions = {
@@ -99,13 +121,15 @@ onBeforeUnmount(() => {
         '--swiper-pagination-bullet-inactive-opacity': '0.5',
         '--swiper-pagination-bullet-size': '12px',
         '--swiper-pagination-bullet-horizontal-gap': '6px',
+        '--swiper-pagination-margin-bottom': '20px',
       }"
     >
       <SwiperSlide
         v-for="(item, index) in bannerItems"
         :key="index"
-        class="w-full h-full flex flex-col justify-center items-center overflow-hidden lg:rounded-3xl"
+        class="w-full h-full flex flex-col justify-center items-center overflow-hidden"
         :style="`background: radial-gradient(circle at center, ${item.gradient}, ${item.gradientTo})`"
+        :class="isTransitioning ? '!rounded-3xl' : '!rounded-l-3xl'"
       >
         <img
           :src="getImageUrl(item.image)"
@@ -123,5 +147,9 @@ onBeforeUnmount(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+::v-deep
+  .swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets.swiper-pagination-horizontal {
+  margin-bottom: 1.2rem !important;
 }
 </style>

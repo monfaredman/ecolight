@@ -187,4 +187,5 @@ export const fa = {
   codeSentTo: 'کد ارسال شده به',
   enterCodeHere: 'را وارد کنید',
   long: 'رمز عبور باید حداقل 6 کاراکتر باشد',
+  ecolight: 'سامانه یکپارچه اکولایت',
 }

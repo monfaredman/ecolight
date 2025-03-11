@@ -3,7 +3,7 @@
     <VForm
       ref="otpForm"
       lazy-validation
-      class="w-full max-w-[495px] mx-auto flex-1 mt-8"
+      class="w-full mx-auto mt-8"
       @submit.prevent="otpStep === 1 ? getOtpCode() : loginUser()"
     >
       <div v-if="otpStep === 1">
@@ -14,7 +14,6 @@
           variant="outlined"
           autofocus
           :label="$t('phoneNumber')"
-          class="rounded-lg"
           focus="info"
           :rules="Rules.phoneNumber"
           tabindex="1"
@@ -23,13 +22,9 @@
         />
       </div>
       <div v-else>
-        <h3
-          v-if="model.phoneNumber"
-          class="mb-5 text-gray-600 text-right"
-          dir="rtl"
-        >
+        <h3 class="mb-5 text-gray-600 text-right" dir="rtl">
           {{ $t('codeSentTo') }}
-          <span class="text-left" dir="ltr">{{ model.phoneNumber }}</span>
+          <span class="text-left" dir="ltr">0935****007</span>
           {{ $t('enterCodeHere') }}
         </h3>
         <OtpInput v-model="code" :disabled="loading" @input="loginUser" />
@@ -38,7 +33,7 @@
         class="w-full flex flex-col sm:flex-row justify-start sm:!justify-between mt-3"
       >
         <VBtn
-          class="my-auto text-info flex justify-start rounded-lg w-fit !tracking-normal pr-1"
+          class="my-auto text-info flex justify-start rounded-lg w-fit !tracking-normal pr-1 !text-xs"
           variant="text"
           @click="changeLoginScenario"
         >
@@ -53,7 +48,7 @@
             <div class="flex items-center my-auto">
               <span class="flex justify-between items-center">
                 <VIcon color="info" size="1.125rem">mdi-clock</VIcon>
-                <span class="text-info-800 whitespace-nowrap mr-1 !text-sm"
+                <span class="text-info-800 whitespace-nowrap mr-1 !text-xs"
                   >ارسال مجدد کد تایید</span
                 >
               </span>

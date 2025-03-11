@@ -49,8 +49,8 @@ const isValidCode = computed(() => {
       type="number"
       @finish="handleInput"
       variant="outlined"
-      min-width="450px"
-      max-width="650px"
+      min-width="100%"
+      max-width="100%"
       dir="ltr"
       :error="!isValidCode"
     />

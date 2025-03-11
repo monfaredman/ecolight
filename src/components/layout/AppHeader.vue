@@ -1,32 +1,14 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import {
-  VAppBar,
-  VBtn,
-  VIcon,
-  VSpacer,
-  VMenu,
-  VList,
-  VListItem,
-  VChip,
-  VSkeletonLoader,
-  VDivider,
-} from 'vuetify/components'
-
 const router = useRouter()
 const route = useRoute()
 
 const isOnline = ref(true)
 const showSettingDialog = ref(false)
 const loading = ref({ header: false })
-const notification = ref({ count: 3 })
 const userInfo = ref({ Id_MasterRole: 10, Name: 'John', Family: 'Doe' })
 const titleRoute = ref('')
-
-import { useThemeStore } from '@/stores/theme'
-
-const themeStore = useThemeStore()
 
 const emit = defineEmits(['toggle-sidebar'])
 
@@ -50,53 +32,48 @@ const logoutUser = () => {
 <template>
   <VAppBar
     fixed
-    class="main-header"
+    class="main-header px-2"
     height="64"
     :color="isOnline ? 'grey-lighten-2' : 'red'"
   >
     <template v-if="!loading.header">
       <template v-if="isOnline">
         <VSpacer />
-        <VBtn icon @click="showSettingDialog = true">
+        <VBtn variant="tonal" icon>
           <VIcon color="white" size="24">mdi-cog-outline</VIcon>
         </VBtn>
-        <VBtn @click="themeStore.toggleTheme" icon> Toggle Theme </VBtn>
-        <VMenu max-width="280" offset-y bottom>
-          <template #activator="{ props }">
-            <VBtn v-bind="props" icon>
-              <VIcon color="white" size="24">mdi-bell-ring-outline</VIcon>
-              <VIcon
-                v-if="notification.count"
-                class="absolute top-0 right-2"
-                color="red"
-                size="12"
-              >
-                mdi-circle
-              </VIcon>
-            </VBtn>
-          </template>
-          <VList>
-            <VListItem
-              class="flex justify-start"
-              dense
-              :to="{ name: 'versioning' }"
-            >
-              <VIcon size="17" color="gray" class="ml-2">mdi-history</VIcon>
-              <span class="ml-3">Version Changes</span>
-            </VListItem>
-          </VList>
-        </VMenu>
+        <VBtn variant="tonal" icon class="mr-2">
+          <VIcon color="white" size="24">mdi-bell-ring-outline</VIcon>
+        </VBtn>
         <div class="rounded-2xl md:p-2">
           <VMenu max-width="280" offset-y bottom>
             <template #activator="{ props }">
               <VBtn
                 v-bind="props"
                 class="bg-white text-gray-800 rounded-xl mr-2"
-                icon
               >
-                <span class="hidden xl:block"
-                  >{{ userInfo.Name }} {{ userInfo.Family }}</span
+                <span class="hidden xl:block">project</span>
+                <VIcon class="mr-2 hidden xl:block" size="16"
+                  >mdi-chevron-down</VIcon
                 >
+              </VBtn>
+            </template>
+            <VList>
+              <VListItem class="flex justify-start" dense @click="logoutUser">
+                <VIcon color="gray" class="ml-2">mdi-list-box-outline</VIcon>
+                <span class="mr-3">Project 1</span>
+              </VListItem>
+            </VList>
+          </VMenu>
+        </div>
+        <div class="rounded-2xl md:p-2">
+          <VMenu max-width="280" offset-y bottom>
+            <template #activator="{ props }">
+              <VBtn
+                v-bind="props"
+                class="bg-white text-gray-800 rounded-xl mr-2"
+              >
+                <span class="hidden xl:block">{{ userInfo.Name }}</span>
                 <VIcon class="mr-2 hidden xl:block" size="16"
                   >mdi-chevron-down</VIcon
                 >
@@ -104,12 +81,11 @@ const logoutUser = () => {
               </VBtn>
             </template>
             <VList>
-              <VDivider />
               <VListItem class="flex justify-start" dense @click="logoutUser">
                 <VIcon size="17" color="red" class="ml-2"
                   >mdi-exit-to-app</VIcon
                 >
-                <span class="ml-3">Logout</span>
+                <span class="mr-3">Logout</span>
               </VListItem>
             </VList>
           </VMenu>
@@ -137,12 +113,7 @@ const logoutUser = () => {
 <style lang="postcss" scoped>
 .main-header {
   background-color: #9e62a3 !important;
-  background-image:
-    url('@/assets/images/dashboard/header-squars.svg'),
-    url('@/assets/images/dashboard/header-squars-right.svg') !important;
-  background-position:
-    left center,
-    right center !important;
+  background-image: url('@/assets/images/dashboard/Vector-top.svg') !important;
   background-repeat: no-repeat, no-repeat !important;
   .v-list {
     .v-list-item:hover {
