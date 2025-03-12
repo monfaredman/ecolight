@@ -24,8 +24,18 @@ const mockRoutes = [
     title: 'مدیریت کاربران',
     icon: 'mdi-account-group',
     children: [
-      { id: 21, title: 'لیست کاربران', icon: 'mdi-account', link: '/users' },
-      { id: 22, title: 'سطوح دسترسی', icon: 'mdi-security', link: '/roles' },
+      {
+        id: 21,
+        title: 'ثبت کاربر',
+        icon: 'mdi-account-plus',
+        link: '/users/register',
+      },
+      {
+        id: 22,
+        title: 'لیست کاربران',
+        icon: 'mdi-account',
+        link: '/users/list',
+      },
     ],
   },
   {
@@ -51,7 +61,6 @@ const mockRoutes = [
   { id: 5, title: 'مدیریت سامانه', icon: 'mdi-tune', link: '/settings' },
   { id: 6, title: 'پیام‌ها', icon: 'mdi-email', link: '/messages' },
 ]
-
 const rail = ref(true)
 const openGroups = ref<number[]>([])
 
@@ -69,7 +78,15 @@ const toggleRail = () => {
 
 onMounted(() => {
   routes.value = mockRoutes
+  toggleRail()
+  closeRail()
 })
+
+const closeRail = () => {
+  setTimeout(() => {
+    rail.value = true
+  }, 1500)
+}
 
 const openDrawer = (item: Route) => {
   selectedItem.value = item
@@ -110,7 +127,7 @@ const openDrawer = (item: Route) => {
             size="x-small"
             variant="tonal"
             @click.stop="toggleRail()"
-            class="!rounded-l-none"
+            class="!rounded-l-none !border-6 !border-r-0 !border-t-0 !border-b-0 !border-white"
           />
         </div>
         <div class="flex-9/12 w-full overflow-y-auto !max-h-full my-3">
@@ -160,13 +177,17 @@ const openDrawer = (item: Route) => {
                   </VListItem>
                 </template>
                 <VListItem
+                  v-if="!rail"
                   v-for="child in item.children"
                   :key="child.id"
                   class="pl-4 h-12"
                   @click="openDrawer(child)"
                   :variant="
-                    selectedItem && child.id === selectedItem.id && 'tonal'
+                    selectedItem && child.id === selectedItem.id
+                      ? 'tonal'
+                      : undefined
                   "
+                  :to="child.link"
                 >
                   <VListItemContent
                     class="flex justify-start items-center text-right"
@@ -182,9 +203,12 @@ const openDrawer = (item: Route) => {
                 v-else
                 class="h-16 px-0 !rounded-none"
                 :variant="
-                  selectedItem && item.title === selectedItem.title && 'tonal'
+                  selectedItem && item.title === selectedItem.title
+                    ? 'tonal'
+                    : undefined
                 "
                 @click="openDrawer(item)"
+                :to="item.link"
               >
                 <VListItemContent
                   class="flex text-center"
