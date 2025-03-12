@@ -100,7 +100,7 @@ const changeLoginScenario = () => {
 <template>
   <div class="w-full flex justify-center items-center h-screen">
     <div
-      class="login-wrapper flex !w-full h-screen items-center xl:!w-8/12 max-w-[1600px] bg-white md:gap-x-5 lg:gap-x-0 sm:!max-h-[83vh]"
+      class="login-wrapper flex !w-full h-screen items-center lg:!w-9/12 xl:!w-8/12 max-w-[1600px] bg-white md:gap-x-5 lg:gap-x-0 sm:!max-h-[83vh]"
     >
       <div
         class="flex justify-center lg:justify-end items-center w-full md:w-1/2 h-full"
@@ -108,10 +108,10 @@ const changeLoginScenario = () => {
       >
         <div
           v-if="formStep === 1"
-          class="w-11/12 sm:max-w-2/3 md:max-w-full md:w-full lg:w-full xl:w-10/12 max-w-[650px] rounded-2xl h-full flex flex-col p-0 md:pt-10 py-6 px-5"
+          class="w-11/12 sm:max-w-2/3 md:max-w-full md:w-full l xl:w-10/12 max-w-[650px] rounded-2xl !h-[100%] !flex !flex-col p-0 md:pt-10 py-6 px-5 !justify-between !items-center"
         >
           <div
-            class="flex flex-col items-center justify-center gap-y-4 mb-4 mt-8"
+            class="flex-2/12 flex flex-col items-center !justify-center gap-y-4 mb-4"
           >
             <Logo
               :image-props="{
@@ -125,7 +125,7 @@ const changeLoginScenario = () => {
             v-if="loginScenario === 'username'"
             ref="usernameForm"
             lazy-validation
-            class="w-full max-w-[495px] mx-auto flex-1 mt-12"
+            class="flex flex-col justify-between w-full max-w-[495px] mx-auto flex-2/12 xl:!gap-y-1 2xl:!gap-y-2"
           >
             <VTextField
               v-model="model.username"
@@ -136,6 +136,7 @@ const changeLoginScenario = () => {
               tabindex="1"
               rounded="lg"
               :rules="Rules.required"
+              class="h-18 xl:h-fit"
             />
             <VTextField
               v-model="model.password"
@@ -150,9 +151,10 @@ const changeLoginScenario = () => {
               rounded="lg"
               :type="show ? 'text' : 'password'"
               @click:append-inner="() => (show = !show)"
+              class="h-18 xl:h-fit"
             />
             <div
-              class="w-full flex flex-col sm:flex-row justify-start sm:!justify-between mt-4"
+              class="w-full flex flex-col sm:flex-row justify-start sm:!justify-between lg:!mt-2"
             >
               <VBtn
                 class="my-auto text-info flex justify-start rounded-lg w-fit !tracking-normal pr-1 !text-xs"
@@ -172,7 +174,7 @@ const changeLoginScenario = () => {
             </div>
 
             <VBtn
-              class="text-white !bg-primary rounded-lg w-full mt-8 !text-base"
+              class="text-white !bg-primary rounded-lg w-full !text-base lg:!mt-2 xl:!mt-6"
               :loading="loading.login"
               elevation="0"
               type="submit"
@@ -184,10 +186,12 @@ const changeLoginScenario = () => {
             </VBtn>
           </VForm>
           <template v-else>
-            <OtpLogin @submitOtpCode="onGetRoles" />
+            <OtpLogin @submitOtpCode="onGetRoles" class="w-full" />
           </template>
 
-          <div class="flex flex-col items-center gap-y-3 mt-auto">
+          <div
+            class="flex flex-col justify-end items-center gap-y-3 mt-auto flex-2/12"
+          >
             <p class="!text-xs md:!text-sm font-semibold text-center">
               تمامی حقوق برای
               <a

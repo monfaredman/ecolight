@@ -3,11 +3,13 @@
     <VForm
       ref="otpForm"
       lazy-validation
-      class="w-full mx-auto mt-8"
+      class="flex !flex-col !justify-between w-full max-w-[495px] mx-auto flex-2/12 xl:!gap-y-1 2xl:!gap-y-2 h-full"
       @submit.prevent="otpStep === 1 ? getOtpCode() : loginUser()"
     >
       <div v-if="otpStep === 1">
-        <h3 class="mb-5 text-gray-600">{{ $t('enterMobile') }}</h3>
+        <p class="text-[14px] font-semibold mb-4">
+          {{ $t('enterMobile') }}
+        </p>
         <VTextField
           ref="textfieldInput"
           v-model="model.phoneNumber"
@@ -30,7 +32,7 @@
         <OtpInput v-model="code" :disabled="loading" @input="loginUser" />
       </div>
       <div
-        class="w-full flex flex-col sm:flex-row justify-start sm:!justify-between mt-3"
+        class="w-full flex flex-col sm:flex-row justify-start sm:!justify-between lg:!mt-2"
       >
         <VBtn
           class="my-auto text-info flex justify-start rounded-lg w-fit !tracking-normal pr-1 !text-xs"
@@ -71,7 +73,7 @@
       </div>
 
       <VBtn
-        class="text-white !bg-primary rounded-lg w-full mt-10 !tracking-normal !text-base"
+        class="text-white !bg-primary rounded-lg w-full mt-4 xl:!mt-10 !tracking-normal !text-base"
         :loading="loading"
         elevation="0"
         type="submit"

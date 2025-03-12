@@ -133,7 +133,7 @@ onBeforeUnmount(() => {
       >
         <img
           :src="getImageUrl(item.image)"
-          class="select-none md:w-[222px] md:h-[222px] lg:w-[395px] lg:h-[395px] mt-8"
+          class="select-none md:w-[222px] md:h-[222px] xl:w-[395px] xl:h-[395px] mt-8"
           alt="logo"
         />
         <p>{{ item.description }}</p>

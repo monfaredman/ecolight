@@ -52,56 +52,42 @@ const mockRoutes = [
   { id: 6, title: 'پیام‌ها', icon: 'mdi-email', link: '/messages' },
 ]
 
-const openGroups = ref<Record<number, boolean>>({})
+const rail = ref(true)
+const openGroups = ref<number[]>([])
 
 const toggleRail = () => {
   rail.value = !rail.value
-
   if (rail.value) {
-    // Collapse all menus when rail is collapsed
-    openGroups.value = {}
+    openGroups.value = []
+  } else if (!rail.value && selectedItem.value) {
+    const parent = routes.value.find((route) =>
+      route.children?.some((child) => child.id === selectedItem.value?.id)
+    )
+    openGroups.value = parent ? [parent.id] : []
   }
-}
-
-const toggleGroup = (id: number) => {
-  if (rail.value) {
-    rail.value = false
-  }
-  openGroups.value = { ...openGroups.value, [id]: !openGroups.value[id] }
 }
 
 onMounted(() => {
   routes.value = mockRoutes
 })
-
-const rail = ref(true)
-
-onMounted(() => {
-  routes.value = mockRoutes
-})
-
-const emit = defineEmits(['update:modelValue'])
 
 const openDrawer = (item: Route) => {
   selectedItem.value = item
 }
-
-const closeDrawer = () => {
-  emit('update:modelValue', false)
-}
 </script>
+
 <template>
-  <div class="sidebar-component" @mouseleave="closeDrawer">
+  <div class="sidebar-component">
     <VNavigationDrawer
       :model-value="drawer"
-      class="bg-gradient rounded-l-b-lg !shadow-none !border-none"
+      class="bg-gradient !rounded-bl-3xl !shadow-none !border-none h-screen"
       location="right"
       :rail="rail"
       permanent
       :width="200"
-      :rail-width="90"
+      :rail-width="110"
     >
-      <div class="flex flex-col justify-between items-center">
+      <div class="flex flex-col justify-between items-center h-screen">
         <div class="inline-flex justify-center mt-2 flex-1/12">
           <VBtn
             variant="text"
@@ -117,89 +103,114 @@ const closeDrawer = () => {
             />
           </VBtn>
         </div>
-        <div class="inline-flex justify-center mt-6 flex-1/12">
+        <div class="w-full flex justify-end items-center mt-6 flex-1/24">
           <VBtn
             color="white"
             :icon="rail ? 'mdi-chevron-left' : 'mdi-chevron-right'"
+            size="x-small"
             variant="tonal"
-            size="small"
             @click.stop="toggleRail()"
+            class="!rounded-l-none"
           />
         </div>
-        {{ openGroups }}
-        <VList class="flex-9/12 w-full">
-          <template v-for="item in routes" :key="item.id">
-            <VListGroup v-if="item.children" no-action>
-              <template #activator="{ isOpen, props }">
-                <VListItem v-bind="props" class="h-16 px-0 !mb-4 !rounded-none">
-                  <template #append>
-                    <div
-                      class="relative w-0"
-                      :class="rail ? '-right-6' : '-right-12'"
-                    >
-                      <VIcon color="white" size="20px">
-                        {{ isOpen ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
-                      </VIcon>
-                    </div>
-                  </template>
-
-                  <VListItemContent
-                    class="flex flex-col justify-center items-center text-center"
+        <div class="flex-9/12 w-full overflow-y-auto !max-h-full my-3">
+          <VList
+            v-model:opened="openGroups"
+            class="flex flex-col justify-start flex-9/12 w-full py-0"
+          >
+            <template v-for="item in routes" :key="item.id">
+              <VListGroup v-if="item.children" no-action :value="item.id">
+                <template #activator="{ isOpen, props }">
+                  <VListItem
+                    v-bind="props"
+                    class="h-16 px-0 !rounded-none"
+                    @click="rail = false"
                   >
-                    <VIcon color="white" size="2rem">{{ item.icon }}</VIcon>
-                    <VListItemTitle
-                      v-if="!rail"
-                      class="text-white !font-extrabold !text-xs"
+                    <template #append>
+                      <div
+                        class="relative w-0"
+                        :class="
+                          rail
+                            ? '-right-8 xl:-right-9 top-1'
+                            : '-right-9 xl:-right-8'
+                        "
+                      >
+                        <VIcon color="white" size="20px">
+                          {{ isOpen ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+                        </VIcon>
+                      </div>
+                    </template>
+
+                    <VListItemContent
+                      class="flex text-center"
+                      :class="
+                        rail == false
+                          ? 'flex-row  justify-start items-center gap-x-2 px-4'
+                          : 'flex-col justify-between items-center'
+                      "
                     >
-                      {{ item.title }}1
-                    </VListItemTitle>
+                      <VIcon color="white" size="2rem">{{ item.icon }}</VIcon>
+                      <VListItemTitle
+                        v-if="!rail"
+                        class="text-white !font-extrabold !text-xs"
+                      >
+                        {{ item.title }}
+                      </VListItemTitle>
+                    </VListItemContent>
+                  </VListItem>
+                </template>
+                <VListItem
+                  v-for="child in item.children"
+                  :key="child.id"
+                  class="pl-4 h-12"
+                  @click="openDrawer(child)"
+                  :variant="
+                    selectedItem && child.id === selectedItem.id && 'tonal'
+                  "
+                >
+                  <VListItemContent
+                    class="flex justify-start items-center text-right"
+                  >
+                    <VIcon color="black">mdi-circle-small</VIcon>
+                    <VListItemTitle v-if="!rail" class="!text-[0.68rem] mr-2">
+                      {{ child.title }}</VListItemTitle
+                    >
                   </VListItemContent>
                 </VListItem>
-              </template>
-
+              </VListGroup>
               <VListItem
-                v-for="child in item.children"
-                :key="child.id"
-                class="pl-4 h-14"
-                @click="openDrawer(child)"
+                v-else
+                class="h-16 px-0 !rounded-none"
+                :variant="
+                  selectedItem && item.title === selectedItem.title && 'tonal'
+                "
+                @click="openDrawer(item)"
               >
                 <VListItemContent
-                  class="flex justify-start items-center text-right"
+                  class="flex text-center"
+                  :class="
+                    rail == false
+                      ? 'flex-row  justify-start items-center gap-x-2 px-4'
+                      : 'flex-col justify-between items-center'
+                  "
                 >
-                  <VIcon>{{ child.icon }}</VIcon>
-                  <VListItemTitle v-if="!rail" class="!text-xs mr-2">
-                    {{ child.title }}</VListItemTitle
+                  <VIcon color="white" size="2rem">{{ item.icon }}</VIcon>
+                  <VListItemTitle
+                    v-if="!rail"
+                    class="text-white !font-extrabold !text-xs"
                   >
+                    {{ item.title }}
+                  </VListItemTitle>
                 </VListItemContent>
               </VListItem>
-            </VListGroup>
-            <VListItem
-              v-else
-              class="h-16 px-0 !mb-4 !rounded-none"
-              :class="{
-                'bg-gray-200':
-                  selectedItem && item.title === selectedItem.title,
-              }"
-              @click="openDrawer(item)"
-            >
-              <VListItemContent
-                class="flex flex-col justify-center items-center text-center"
-              >
-                <VIcon color="white" size="2rem">{{ item.icon }}</VIcon>
-                <VListItemTitle
-                  v-if="!rail"
-                  class="text-white !font-extrabold !text-xs"
-                >
-                  {{ item.title }}3
-                </VListItemTitle>
-              </VListItemContent>
-            </VListItem>
-          </template>
-        </VList>
+            </template>
+          </VList>
+        </div>
 
         <div
           class="inline-flex flex-col items-center justify-end pb-3 flex-1/12 !text-sm"
         >
+          <VIcon color="primary">mdi-dots-horizontal</VIcon>
           <span class="text-dark font-light">امروز</span>
           <span class="text-dark font-extrabold">
             {{
@@ -269,15 +280,7 @@ const closeDrawer = () => {
   background: linear-gradient(0deg, #11acb1 0%, #9e62a3 90%);
 }
 
-.active--title_menu {
-  background: rgb(236, 236, 236, 1);
-}
-
 ::v-deep .v-skeleton-loader__bone {
   background-color: transparent !important;
 }
 </style>
-<!-- ::v-deep .v-list-group__header .v-icon {
-  color: red !important;
-  font-size: 32px !important;
-} -->

@@ -67,16 +67,16 @@ const onChangePassword = async () => {
 <template>
   <div class="w-full flex justify-center items-center h-screen">
     <div
-      class="login-wrapper flex !w-full h-screen items-center xl:!w-8/12 max-w-[1600px] bg-white md:gap-x-5 lg:gap-x-0 sm:!max-h-[83vh]"
+      class="login-wrapper flex !w-full h-screen items-center lg:!w-9/12 xl:!w-8/12 max-w-[1600px] bg-white md:gap-x-5 lg:gap-x-0 sm:!max-h-[83vh]"
     >
       <div
         class="flex justify-center lg:justify-end items-center w-full md:w-1/2 h-full"
       >
         <div
-          class="w-11/12 sm:max-w-2/3 md:max-w-full md:w-full lg:w-full xl:w-10/12 max-w-[650px] rounded-2xl h-full flex flex-col p-0 md:pt-10 py-6 px-5"
+          class="w-11/12 sm:max-w-2/3 md:max-w-full md:w-full l xl:w-10/12 max-w-[650px] rounded-2xl !h-[100%] !flex !flex-col p-0 md:pt-10 py-6 px-5 !justify-between !items-center"
         >
           <div
-            class="flex flex-col items-center justify-center gap-y-4 mb-4 mt-8"
+            class="flex-2/12 flex flex-col items-center !justify-center gap-y-4 mb-4"
           >
             <Logo
               :image-props="{
@@ -90,7 +90,7 @@ const onChangePassword = async () => {
           <VForm
             v-if="formStep === 1"
             ref="otpForm"
-            class="w-full mx-auto mt-12"
+            class="flex flex-col justify-between w-full max-w-[495px] mx-auto flex-6/12 xl:!gap-y-1 2xl:!gap-y-2"
             lazy-validation
           >
             <div class="flex flex-col justify-between">
@@ -106,7 +106,7 @@ const onChangePassword = async () => {
                 :rules="rules.phoneNumber"
                 hide-details="auto"
                 variant="outlined"
-                class="!h-10"
+                class="h-18 xl:h-fit"
               />
               <div class="!h-25 mt-16">
                 <VBtn
@@ -132,10 +132,13 @@ const onChangePassword = async () => {
           <VForm
             v-if="formStep === 2"
             ref="changePassword"
-            class="w-full max-w-[495px] mx-auto flex-1 mb-5"
+            class="w-full max-w-[495px] mx-auto mb-5 flex-6/12"
             lazy-validation
           >
-            <h3 class="my-2 text-gray-600 text-right" dir="rtl">
+            <h3
+              class="xl:my-2 text-gray-600 text-right !text-sm xl:text-base"
+              dir="rtl"
+            >
               {{ $t('codeSentTo') }}
               <span class="text-left" dir="ltr">0935****007</span>
               {{ $t('enterCodeHere') }}
@@ -150,7 +153,7 @@ const onChangePassword = async () => {
               :append-inner-icon="
                 showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'
               "
-              class="shadow-xs rounded-lg mt-2"
+              class="shadow-xs mt-2 h-18 xl:h-fit"
               @click:append-inner="showPassword = !showPassword"
               :rules="rules.password"
               rounded="lg"
@@ -167,7 +170,7 @@ const onChangePassword = async () => {
               :append-inner-icon="
                 showRepeatPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'
               "
-              class="shadow-xs rounded-lg mt-2"
+              class="shadow-xs h-18 xl:h-fit mt-3"
               @click:append-inner="showRepeatPassword = !showRepeatPassword"
               :rules="[
                 (v) =>
@@ -177,7 +180,7 @@ const onChangePassword = async () => {
             />
 
             <VBtn
-              class="text-white !bg-primary rounded-lg w-full mt-10 !text-base !tracking-normal"
+              class="text-white !bg-primary rounded-lg w-full xl:mt-10 !text-base !tracking-normal"
               :loading="loading"
               size="x-large"
               @click.prevent="onChangePassword"
