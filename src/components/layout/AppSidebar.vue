@@ -142,6 +142,7 @@ const openDrawer = (item: Route) => {
                     v-bind="props"
                     class="h-16 px-0 !rounded-none"
                     @click="rail = false"
+                    :ripple="false"
                   >
                     <template #append>
                       <div
@@ -149,7 +150,7 @@ const openDrawer = (item: Route) => {
                         :class="
                           rail
                             ? '-right-8 xl:-right-9 top-1'
-                            : '-right-9 xl:-right-8'
+                            : '-right-9 xl:-right-6'
                         "
                       >
                         <VIcon color="white" size="20px">
@@ -169,7 +170,7 @@ const openDrawer = (item: Route) => {
                       <VIcon color="white" size="2rem">{{ item.icon }}</VIcon>
                       <VListItemTitle
                         v-if="!rail"
-                        class="text-white !font-extrabold !text-xs"
+                        class="text-white !font-extrabold !text-sm"
                       >
                         {{ item.title }}
                       </VListItemTitle>
@@ -188,12 +189,16 @@ const openDrawer = (item: Route) => {
                       : undefined
                   "
                   :to="child.link"
+                  :ripple="false"
                 >
                   <VListItemContent
                     class="flex justify-start items-center text-right"
                   >
                     <VIcon color="black">mdi-circle-small</VIcon>
-                    <VListItemTitle v-if="!rail" class="!text-[0.68rem] mr-2">
+                    <VListItemTitle
+                      v-if="!rail"
+                      class="!text-sm xl:text-[0.68rem] mr-2"
+                    >
                       {{ child.title }}</VListItemTitle
                     >
                   </VListItemContent>
@@ -209,6 +214,7 @@ const openDrawer = (item: Route) => {
                 "
                 @click="openDrawer(item)"
                 :to="item.link"
+                :ripple="false"
               >
                 <VListItemContent
                   class="flex text-center"
@@ -221,7 +227,7 @@ const openDrawer = (item: Route) => {
                   <VIcon color="white" size="2rem">{{ item.icon }}</VIcon>
                   <VListItemTitle
                     v-if="!rail"
-                    class="text-white !font-extrabold !text-xs"
+                    class="text-white !font-extrabold !text-sm"
                   >
                     {{ item.title }}
                   </VListItemTitle>
