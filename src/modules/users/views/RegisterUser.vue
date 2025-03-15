@@ -7,14 +7,11 @@
         >
           <h3 class="font-extrabold text-gray-600">
             {{ t('registrationServiceRecipient') }}
-            <span v-if="step === 2" class="text-xs">
-              ( {{ t('addRole') }} )
-            </span>
           </h3>
           <VBtn
             color="black"
             variant="text"
-            @click="step === 2 ? (step = 1) : $router.back()"
+            @click="$router.back()"
             class="!tracking-normal"
           >
             {{ t('back') }}
@@ -22,11 +19,7 @@
           </VBtn>
         </div>
         <!-- STEP_۱ -->
-        <VForm
-          v-if="step === 1 && !loading.stepTwo"
-          ref="formTwo"
-          class="bg-white !px-6 !py-7 !mt-6 rounded-lg"
-        >
+        <VForm ref="formTwo" class="bg-white !px-6 !py-7 !mt-6 rounded-lg">
           <!-- SECTION-ONE -->
           <VRow density="comfortable">
             <VCol cols="12" md="3">
@@ -150,7 +143,7 @@
               <VBtn
                 color="primary"
                 variant="elevated"
-                @click="step = 2"
+                @click="$router.push({ name: 'role-assign' })"
                 class="!tracking-normal"
               >
                 {{ t('register') }}
@@ -158,12 +151,6 @@
             </VCol>
           </VRow>
         </VForm>
-        <!-- STEP_۲ -->
-        <RoleAssign
-          v-if="step === 2"
-          :nationality-list="labList"
-          :loading="loading.stepOne"
-        />
       </VCard>
     </div>
   </div>
@@ -174,7 +161,6 @@ import { computed, ref } from 'vue'
 import { useUsersStore } from '@/modules/users/store/index'
 import { useI18n } from 'vue-i18n'
 import * as validations from '@/utils/validations'
-import RoleAssign from '../components/RoleAssign.vue'
 
 const userStore = useUsersStore()
 const { t } = useI18n()
@@ -194,7 +180,6 @@ const Rules = computed(() => ({
   ],
 }))
 
-const step = ref(1)
 const loading = ref({
   stepOne: false,
   stepTwo: false,
